@@ -94,7 +94,7 @@ class SubCategoryController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             //'slug' => 'required|unique:sub_categories',
-            'slug' => 'required|unique:sub_categories,slug,'.$subCategory->id.',id',
+            'slug' => 'required|unique:sub_categories,slug,'.$subCategory->id.' ,id',
             'category' => 'required',
             'status' => 'required'
         ]);
@@ -106,7 +106,6 @@ class SubCategoryController extends Controller
             $subCategory->status = $request->status;
             $subCategory->category_id = $request->category;
             $subCategory->save();
-
 
             session()->flash('success', 'Sub Category updated successfully.');
             return response([
@@ -120,5 +119,25 @@ class SubCategoryController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
+    }
+
+    public function destroy($id, Request $request) {
+        $subCategory = SubCategory::find($id);
+
+        if(empty($subCategory)) {
+            session()->flash('error','Record not found.');
+            return response([
+                'status' => false, 
+                'notFound' => true
+            ]);
+        }
+
+        $subCategory->delete();
+
+        session()->flash('success', 'Sub Category deleted successfully.');
+            return response([
+                'status' => true,
+                'message' => 'Sub Category deleted successfully.'
+            ]);
     }
 }
