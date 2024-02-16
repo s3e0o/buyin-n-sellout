@@ -25,10 +25,13 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
+Route::get('/', function () {
+    return view('front.home');
+});
 
 Route::group(['prefix' => 'admin'],function() { 
 
